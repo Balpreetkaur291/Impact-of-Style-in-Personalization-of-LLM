@@ -16,7 +16,7 @@ Our approach consists of the following key components:
 
 ### **Pipeline 1: Dense Retrieval Using FAISS**  
 1. **Query Variants Generation**  
-   - The original query is used to generate k variations using an LLM - Gemini Flash 1.5.
+   - The original query is used to generate k variations using the LLM - Gemini Flash 1.5.
      
 2. **Dense Retrieval & FAISS Indexing**  
    - The expanded queries are used to retrieve the top m semantically similar documents using FAISS indexing.  
@@ -39,7 +39,7 @@ Our approach consists of the following key components:
 ---
 
 ### **Key Findings**
-✅ **Hybrid approach** (content + style embeddings) achieves the best performance in both ROUGE-1 score of 0.0985 and ROUGE-L score of 0.0894. 
+✅ **Hybrid approach** (content + style embeddings) achieves the best performance in both ROUGE-1 score of 0.0985 and ROUGE-L score of 0.0894.
 ✅ **BM25** remains a strong baseline for text retrieval and headline generation.  
 ✅ **Dense Search & Style Embeddings alone** perform worse than hybrid models.  
 
