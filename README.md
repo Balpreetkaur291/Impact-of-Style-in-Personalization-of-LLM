@@ -1,4 +1,4 @@
-# COMPSCI-646 Information Retrieval Project - Personalized News Headline Generation using LLM-Based RAG Pipeline
+# Information Retrieval Project - Personalized News Headline Generation using LLM-Based RAG Pipeline
 
 ## **Project Overview**
 This project explores the role of linguistic style in personalizing Large Language Models (LLMs) and aims to bridge the gap between the universal capabilities of LLMs and the rising demand for individualized interactions. The core idea is to generate personalized news headlines by combining content-dependent and content-independent style representations.
@@ -14,27 +14,32 @@ The LAMP-4 dataset was used for training and evaluation.
 ### **Approach**
 Our approach consists of the following key components:  
 
+### **Pipeline 1: Dense Retrieval Using FAISS**  
 1. **Query Variants Generation**  
-   - The original query is used to generate k variations using an LLM - Gemini Flash 1.5.  
-
+   - The original query is used to generate k variations using an LLM - Gemini Flash 1.5.
+     
 2. **Dense Retrieval & FAISS Indexing**  
-   - Retrieves the top m semantically similar documents using FAISS indexing.  
+   - The expanded queries are used to retrieve the top m semantically similar documents using FAISS indexing.  
 
-3. **Context Expansion & Headline Generation**  
-   - The retrieved top k documents are appended to the query before generating the final headline using an LLM - Flan-T5 Base Model.  
+### **Pipeline 2: Style Embedding-Based Retrieval**  
+1. **Style Embeddings for Personalization**  
+   - Wegmann et al. (2022)’s model is used to extract style embeddings from the user’s past authored documents.  
+   - The average embedding is computed to capture the user’s overall stylistic tendencies.
+   - Ranks retrieved documents based on cosine similarity to the author’s style embedding.
+  
+### **Hybrid Model for Personalization**  
+1. **Augmenting Query Context**  
+   - A union of dense retrieval and style-based ranking is used to generate the final personalized headline.
+   - The top k retrieved documents (from both pipelines) are appended to the original query, enriching the input with additional context. 
+   - This union-based ranking helps personalize news headlines without losing contextual accuracy.
 
-4. **Style Embeddings for Personalization**  
-   - Utilizes Wegmann et al. (2022)’s model to extract style embeddings from a user’s profile documents.  
-   - Computes the average embedding to capture overall stylistic tendencies.  
-   - Ranks retrieved documents based on cosine similarity to the author’s style embedding.  
-
-5. **Hybrid Model for Personalization**  
-   - A union of dense retrieval and style-based ranking is used to generate the final personalized headline.  
+2. **Headline Generation**  
+  - The Flan-T5 Base Model generates the final personalized headline, ensuring it aligns with both the retrieved semantic content and the user’s unique writing style.
 
 ---
 
 ### **Key Findings**
-✅ **Hybrid approach** (content + style embeddings) achieves the best performance in both ROUGE-1 and ROUGE-L.  
+✅ **Hybrid approach** (content + style embeddings) achieves the best performance in both ROUGE-1 score of 0.0985 and ROUGE-L score of 0.0894. 
 ✅ **BM25** remains a strong baseline for text retrieval and headline generation.  
 ✅ **Dense Search & Style Embeddings alone** perform worse than hybrid models.  
 
